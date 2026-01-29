@@ -1,6 +1,11 @@
+'use client'
+
 import Image from "next/image";
 import Link from "next/link";
 import { role } from "@/lib/data"
+import { usePathname } from "next/navigation";
+
+
 
 const menuItems = [
   {
@@ -117,6 +122,8 @@ const menuItems = [
   },
 ];
 const Menu = () => {
+  const pathname = usePathname()
+
   return (
     <div className="mt-4 text-sm">
       {menuItems.map(i => (
@@ -124,8 +131,11 @@ const Menu = () => {
           <span className="hidden lg:block text-gray-400 font-light my-4">{i.title}</span>
           {i.items.map(item => {
             if (item.visible.includes(role)) {
+              const isActive = pathname === item.href
               return (
-                <Link className="flex items-center justify-center lg:justify-start gap-4 text-gray-500 py-1.5 md:px-2 rounded-md hover:bg-lamaSkyLight" href={item.href} key={item.label}>
+                <Link href={item.href} key={item.label}
+                className={`flex items-center justify-center lg:justify-start gap-4 text-gray-500 py-1.5 md:px-2 rounded-md hover:bg-lamaSkyLight
+                ${isActive ? "bg-lamaSkyLight text-gray-900": ""}`} >
                   <Image src={item.icon} alt="" width={20} height={20} />
                   <span className="hidden lg:block">{item.label}</span>
                 </Link>
